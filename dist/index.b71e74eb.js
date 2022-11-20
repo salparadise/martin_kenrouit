@@ -532,42 +532,30 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"h7u1C":[function(require,module,exports) {
-var _fs = require("fs");
 var _coingecko = require("./coingecko");
-var _imput = require("./imput");
 var _indexTpHtml = require("./index_tp_html");
-async function run() {
-    let price = await (0, _coingecko.getPrice)();
-    return Number(price);
-}
-async function register() {
-    const currentDate = new Date();
-    const currentDateEdited = (0, _imput.convertDate)(currentDate);
-    const id = Date.now();
-    const value = await run();
-    let currentValue = {
-        id: id,
-        date: currentDateEdited,
-        coin: "bitcoin",
-        value: value
-    };
-    console.log(currentValue);
-    (0, _fs.appendFileSync)("./values/values.txt", JSON.stringify(currentValue) + "\n");
-    console.log("\xa1Valor de la moneda guardado exitosamente! A ver si levanta de una vez.");
-}
-register();
-(0, _indexTpHtml.buildTable)((0, _indexTpHtml.createArray)("src/values.txt"));
+window.onload = async function() {
+    const array = await (0, _indexTpHtml.createArray)("./values.txt");
+    (0, _coingecko.register)();
+    await (0, _indexTpHtml.buildTable)(array);
+} // async function run(): Promise<number> {
+ //     let price: number = await getPrice()
+ //     register()
+ //     buildTable(await createArray("src/values.txt"))
+ //     return Number(price)
+ // }
+;
 
-},{"fs":"jhUEF","./coingecko":"6JZ5h","./imput":"hqdzo","./index_tp_html":"3CU2R"}],"jhUEF":[function(require,module,exports) {
-"use strict";
-
-},{}],"6JZ5h":[function(require,module,exports) {
+},{"./coingecko":"6JZ5h","./index_tp_html":"3CU2R"}],"6JZ5h":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getPrice", ()=>getPrice);
 parcelHelpers.export(exports, "getCoin", ()=>getCoin);
+parcelHelpers.export(exports, "register", ()=>register);
 var _crossFetch = require("cross-fetch");
 var _crossFetchDefault = parcelHelpers.interopDefault(_crossFetch);
+var _fs = require("fs");
+var _imput = require("./imput");
 const BASE_URL = "https://api.coingecko.com/api/v3/";
 async function getPrice(token = "bitcoin", currency = "usd") {
     let retries = 5;
@@ -590,8 +578,23 @@ function getCoin() {
     console.log(coinID);
     alert(coinID);
 }
+async function register() {
+    const currentDate = new Date();
+    const currentDateEdited = (0, _imput.convertDate)(currentDate);
+    const id = Date.now();
+    const value = await getPrice();
+    let currentValue = {
+        id: id,
+        date: currentDateEdited,
+        coin: "bitcoin",
+        value: value
+    };
+    console.log(currentValue);
+    (0, _fs.appendFileSync)("./values/values.txt", JSON.stringify(currentValue) + "\n");
+    console.log("\xa1Valor de la moneda guardado exitosamente! A ver si levanta de una vez.");
+}
 
-},{"cross-fetch":"j4ah4","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"j4ah4":[function(require,module,exports) {
+},{"cross-fetch":"j4ah4","fs":"jhUEF","./imput":"hqdzo","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"j4ah4":[function(require,module,exports) {
 var global = typeof self !== "undefined" ? self : this;
 var __self__ = function() {
     function F() {
@@ -1022,7 +1025,42 @@ exports.Request = ctx.Request;
 exports.Response = ctx.Response;
 module.exports = exports;
 
-},{}],"gkKU3":[function(require,module,exports) {
+},{}],"jhUEF":[function(require,module,exports) {
+"use strict";
+
+},{}],"hqdzo":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "convertDate", ()=>convertDate) // export function register(): void {
+ //     let valueRegister: object[] = []
+ //         const currentDate: Date = new Date()
+ //         const currentDateEdited: string = convertDate(currentDate)
+ //         const id = Date.now()
+ //     let currentValue: object = {
+ //         id: id,
+ //         date: currentDateEdited,
+ //         coin: "butcoin",
+ //         value: getPrice()
+ //     }
+ //     valueRegister.push(currentValue)
+ //     appendFileSync("./values/values.txt", JSON.stringify(valueRegister) + "\n")
+ //     console.log("¡Valor de la moneda guardado exitosamente! A ver si levanta de una vez.")
+ // }
+;
+function convertDate(date) {
+    let yyyy = date.getFullYear().toString();
+    let mm = (date.getMonth() + 1).toString();
+    let dd = date.getDate().toString();
+    let hh = date.getHours().toString();
+    let min = date.getMinutes().toString();
+    let mmChars = mm.split("");
+    let ddChars = dd.split("");
+    let hhChars = hh.split("");
+    let minChars = min.split("");
+    return yyyy + "/" + (mmChars[1] ? mm : "0" + mmChars[0]) + "/" + (ddChars[1] ? dd : "0" + ddChars[0]) + " - " + (hhChars[1] ? hh : "0" + hhChars[0]) + ":" + (minChars[1] ? min : "0" + minChars[0]);
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -1052,63 +1090,20 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"hqdzo":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "run", ()=>run);
-parcelHelpers.export(exports, "convertDate", ()=>convertDate);
-parcelHelpers.export(exports, "register", ()=>register);
-var _coingecko = require("./coingecko");
-var _fs = require("fs");
-async function run() {
-    let price = await (0, _coingecko.getPrice)();
-    return price;
-}
-function convertDate(date) {
-    let yyyy = date.getFullYear().toString();
-    let mm = (date.getMonth() + 1).toString();
-    let dd = date.getDate().toString();
-    let hh = date.getHours().toString();
-    let min = date.getMinutes().toString();
-    let mmChars = mm.split("");
-    let ddChars = dd.split("");
-    let hhChars = hh.split("");
-    let minChars = min.split("");
-    return yyyy + "/" + (mmChars[1] ? mm : "0" + mmChars[0]) + "/" + (ddChars[1] ? dd : "0" + ddChars[0]) + " - " + (hhChars[1] ? hh : "0" + hhChars[0]) + ":" + (minChars[1] ? min : "0" + minChars[0]);
-}
-function register() {
-    let valueRegister = [];
-    const currentDate = new Date();
-    const currentDateEdited = convertDate(currentDate);
-    const id = Date.now();
-    let currentValue = {
-        id: id,
-        date: currentDateEdited,
-        coin: "butcoin",
-        value: run()
-    };
-    valueRegister.push(currentValue);
-    (0, _fs.appendFileSync)("./values/values.txt", JSON.stringify(valueRegister) + "\n");
-    console.log("\xa1Valor de la moneda guardado exitosamente! A ver si levanta de una vez.");
-}
-
-},{"./coingecko":"6JZ5h","fs":"jhUEF","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3CU2R":[function(require,module,exports) {
+},{}],"3CU2R":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "createArray", ()=>createArray);
 parcelHelpers.export(exports, "buildTable", ()=>buildTable);
 var _fs = require("fs");
-function createArray(info) {
-    let array = (0, _fs.readFileSync)(info).toString().split("\n");
-    console.log(array);
-    return array;
+async function createArray(info) {
+    const fileBuffer = await (0, _fs.readFileSync)(info);
+    const arrayOfEntries = fileBuffer.toString().split("\n");
+    const jsonContent = arrayOfEntries.map((c)=>JSON.parse(c));
+    return jsonContent;
 }
 function buildTable(data) {
     let table = document.getElementById("mitabla");
-    // let col1: string = Object.keys(data)[0]
-    // let col2: string = Object.keys(data)[1]
-    // let col3: string = Object.keys(data)[2]
-    // let col4: string = Object.keys(data)[3]
     for(let i = 0; i < data.length; i++){
         let row = `<tr>
                                 <td>${data[i].id}</td>

@@ -1,4 +1,6 @@
 import fetch from "cross-fetch";
+import { appendFileSync } from "fs";
+import { convertDate } from "./imput";
 
 const BASE_URL = "https://api.coingecko.com/api/v3/"
 
@@ -28,4 +30,23 @@ export function getCoin() {
     let coinID: HTMLElement = document.getElementById("coinID")!
     console.log(coinID)
     alert(coinID)
+}
+
+export async function register(): Promise<void> {
+    const currentDate: Date = new Date()
+    const currentDateEdited: string = convertDate(currentDate)
+    const id = Date.now()
+    const value: number = await getPrice()
+
+let currentValue: object = {
+    id: id,
+    date: currentDateEdited,
+    coin: "bitcoin",
+    value: value
+}
+
+console.log(currentValue)
+
+appendFileSync("./values/values.txt", JSON.stringify(currentValue) + "\n")
+console.log("¡Valor de la moneda guardado exitosamente! A ver si levanta de una vez.")
 }
