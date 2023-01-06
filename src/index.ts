@@ -1,6 +1,4 @@
-import { appendFileSync } from "fs"
-import { getPrice, register } from "./coingecko"
-import { convertDate } from "./imput"
+import { register } from "./coingecko"
 import { buildTable, createArray } from "./index_tp_html"
 
 window.onload = async function() {
