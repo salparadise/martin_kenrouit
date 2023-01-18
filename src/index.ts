@@ -3,9 +3,9 @@ import { register, registerDB } from "./coingecko"
 import { insert, select } from "./server"
 
 async function run() {
-    // await insert("1667171748568", "'2023/12/30 - 13:55'", "'bitcoin'", "20056")
-    // await select()
-    await registerDB()
+    // await insert("1667171748568", "2023/12/30 - 13:55", "bitcoin", "20056")
+    await select()
+    // await registerDB()
 }
 
 run()

@@ -30,8 +30,8 @@ export async function insert(idbit: string, date: string, coin: string, value: s
     }
 
     const query = "INSERT INTO public.valores_btc(idbit, date, coin, value)" +  
-                  `VALUES(${idbit}, ${date}, ${coin}, ${value})`
-
+                  `VALUES(${idbit}, '${date}', '${coin}', ${value})`
+    
     const pool = new Pool(CONNECTION_DATA)
     await pool.query(query, async(err, res) => {
         if(err) {

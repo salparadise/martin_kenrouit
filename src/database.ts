@@ -1,3 +1,7 @@
 export function getInfoFromDatabase() {
-    return {"1": 1}
+    return {message: "Suerte!"}
+}
+
+export function setPrice(token: string, price: number) {
+    console.log(`Recording prince ${price} for token ${token}`)
 }
