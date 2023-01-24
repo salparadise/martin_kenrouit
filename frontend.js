@@ -35,9 +35,9 @@ window.onload = function() {
             //     token,
             //     price
             // }));
-            const dbData = await fetch(url, {
+            const dbDataResponse = await fetch(url, {
                 method: 'POST',
-                mode: 'cors',
+                mode: "cors",
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -48,11 +48,13 @@ window.onload = function() {
                 })
 
             }) 
+
+            const dbDataJson = await dbDataResponse.json()
             
             // fetch("http://localhost:3000/")
             // // console.log(dbData)
             // const message = await dbData.json()
-            document.querySelector("#db2").innerHTML = Object.keys(dbData)
+            document.querySelector("#db2").innerHTML = dbDataJson.price
             
         } catch(err) {
             console.error(err.message)
